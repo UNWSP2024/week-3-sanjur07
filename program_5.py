@@ -33,53 +33,62 @@ End'''
 
 
 
-def calculate_hot_dog_cost(hot_dog_type, toppings):
-    hot_dog_prices = {"Hot Dog": 3.50, "Chilling Dog": 4.50}
-    topping_prices = {"cheese": 0.5, "pepper": 0.75, "grilled onions":1}
-    tax_rate = 0.07
-    base_price = hot_dog_prices[hot_dog_type]
-    topping_cost = sum(topping_prices[topping] for topping in toppings)
-    subtotal = base_prices + topping_cost
-    tax = subtotal * tax_rate
-    total_cost = subtotal + tax
-    return base_price, topping_cost, tax, total_cost
+# Function to calculate the total cost
+def calculate_total(hot_dog_price, toppings, tax_rate):
+    # Calculate the total price without tax
+    total_cost = hot_dog_price + sum(toppings)
+    
+    # Calculate tax
+    tax = total_cost * tax_rate
+    
+    # Final total with tax
+    final_total = total_cost + tax
+    
+    return total_cost, tax, final_total
 
-def main():
-    print("Menu:")
-    print("1. Hot Dog ($3.50)")
-    print("2. Chili Dog ($4.50)")
-    print("Toppings: Cheese ($0.50), Peppers ($0.75), Grilled Onions ($1.00)")
-    hot_dog_choice = input("Enter the type of hot dog (Hot Dog/Chili Dog): ").strip().title()
+# Main program
+def hot_dog_order():
+    # Prices for hot dogs and toppings
+    HOT_DOG_PRICE = 3.50
+    CHILI_DOG_PRICE = 4.50
+    CHEESE_PRICE = 0.50
+    PEPPERS_PRICE = 0.75
+    ONIONS_PRICE = 1.00
+    TAX_RATE = 0.07
 
-    if hot_dog_choice not in ["Hot Dog", "Chili Dog"]:
-        print("Invalid choice. Please select either 'Hot Dog' or 'Chili Dog'.")
+    # Ask for hot dog type
+    hot_dog_type = input("Enter the type of hot dog ('hot dog' or 'chili dog'): ").strip().lower()
+
+    # Determine the base price of the hot dog
+    if hot_dog_type == "hot dog":
+        hot_dog_price = HOT_DOG_PRICE
+    elif hot_dog_type == "chili dog":
+        hot_dog_price = CHILI_DOG_PRICE
+    else:
+        print("Invalid hot dog type.")
         return
 
-    toppings_input = input("Enter toppings (separate by commas) or press Enter for no toppings (cheese, peppers, grilled onions): ").strip().lower()
+    # Ask for toppings
+    toppings = []
+    cheese = input("Would you like cheese? (yes/no): ").strip().lower()
+    if cheese == "yes":
+        toppings.append(CHEESE_PRICE)
     
+    peppers = input("Would you like peppers? (yes/no): ").strip().lower()
+    if peppers == "yes":
+        toppings.append(PEPPERS_PRICE)
     
-    if toppings_input:
-        toppings = [topping.strip() for topping in toppings_input.split(",")]
-        valid_toppings = ["cheese", "peppers", "grilled onions"]
-        for topping in toppings:
-            if topping not in valid_toppings:
-                print(f"Invalid topping: {topping}. Please select from {valid_toppings}.")
-                return
-    else:
-        toppings = []
-    
+    onions = input("Would you like grilled onions? (yes/no): ").strip().lower()
+    if onions == "yes":
+        toppings.append(ONIONS_PRICE)
 
-    base_price, toppings_cost, tax, total_cost = calculate_hot_dog_cost(hot_dog_choice, toppings)
-    
+    # Calculate the costs
+    hot_dog_cost, tax, total_cost = calculate_total(hot_dog_price, toppings, TAX_RATE)
 
-    print(f"\n--- Order Summary ---")
-    print(f"Hot Dog Type: {hot_dog_choice}")
-    print(f"Base Price: ${base_price:.2f}")
-    if toppings:
-        print(f"Toppings Cost: ${toppings_cost:.2f}")
-    else:
-        print(f"Toppings Cost: $0.00")
+    # Display the results
+    print(f"\nHot dog cost: ${hot_dog_cost:.2f}")
     print(f"Tax: ${tax:.2f}")
-    print(f"Total Cost: ${total_cost:.2f}")
+    print(f"Total cost: ${total_cost:.2f}")
 
-main()
+# Call the main program
+hot_dog_order()
