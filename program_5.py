@@ -90,5 +90,4 @@ def hot_dog_order():
     print(f"Tax: ${tax:.2f}")
     print(f"Total cost: ${total_cost:.2f}")
 
-# Call the main program
 hot_dog_order()
